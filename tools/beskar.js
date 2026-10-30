@@ -56,7 +56,7 @@ function morph(mask, w, h, r, doErode) {
     let v = doErode ? 1 : 0;
     for (let k = -r; k <= r; k++) {
       const xx = x + k;
-      if (xx < 0 || xx >= w) { if (doErode) { v = 0; break; } continue; }
+      if (xx < 0 || xx >= w) continue; // utanfor bilden raknas inte (annars "aeter" ramen papperet)
       if (mask[y * w + xx] === want) { v = want; break; }
     }
     tmp[y * w + x] = v;
@@ -65,11 +65,30 @@ function morph(mask, w, h, r, doErode) {
     let v = doErode ? 1 : 0;
     for (let k = -r; k <= r; k++) {
       const yy = y + k;
-      if (yy < 0 || yy >= h) { if (doErode) { v = 0; break; } continue; }
+      if (yy < 0 || yy >= h) continue;
       if (tmp[yy * w + x] === want) { v = want; break; }
     }
     out[y * w + x] = v;
   }
+  return out;
+}
+
+// Fyller alla "hal" i masken, dvs. mork yta som inte hanger ihop med bildens kant (t.ex. ett foto mitt pa en sida).
+function fillHoles(mask, w, h) {
+  const reach = new Uint8Array(w * h);
+  const stack = [];
+  const push = (p) => { if (!mask[p] && !reach[p]) { reach[p] = 1; stack.push(p); } };
+  for (let x = 0; x < w; x++) { push(x); push((h - 1) * w + x); }
+  for (let y = 0; y < h; y++) { push(y * w); push(y * w + w - 1); }
+  while (stack.length) {
+    const p = stack.pop(), x = p % w, y = (p / w) | 0;
+    if (x > 0) push(p - 1);
+    if (x < w - 1) push(p + 1);
+    if (y > 0) push(p - w);
+    if (y < h - 1) push(p + w);
+  }
+  const out = new Uint8Array(w * h);
+  for (let i = 0; i < out.length; i++) out[i] = reach[i] ? 0 : 1;
   return out;
 }
 
@@ -106,7 +125,7 @@ function detect(rgb, w, h) {
   for (let i = 0; i < mask.length; i++) mask[i] = g[i] > thr ? 1 : 0;
 
   // Texten gor hal i det vita: stang igen dem (dilation sedan erosion) innan vi tunnar ut for att skilja papper at.
-  const closed = morph(morph(mask, w, h, 9, false), w, h, 9, true);
+  const closed = fillHoles(morph(morph(mask, w, h, 9, false), w, h, 9, true), w, h);
   const R = 8;
   const eroded = morph(closed, w, h, R, true);
   const comp = largestComponent(eroded, w, h);
@@ -127,7 +146,7 @@ function detect(rgb, w, h) {
   if (!tl || !tr || !br || !bl) return null;
   const quad = [tl, tr, br, bl].map(([x, y]) => [x / w, y / h]);
   const a = polyArea(quad);
-  if (a < 0.2 || a > 0.97) return null;
+  if (a < 0.2 || a > 0.995) return null;
   return quad;
 }
 
@@ -209,7 +228,7 @@ async function main() {
 
     if (quad) {
       const full = await sharp(file).rotate().removeAlpha().raw().toBuffer({ resolveWithObject: true });
-      const use = overrides[rel] ? quad : shrink(quad, 0.015); // lite marginal bort sa att kantskuggor inte foljer med
+      const use = overrides[rel] ? quad : shrink(quad, 0.01); // lite marginal bort sa att kantskuggor inte foljer med
       const res = warp(full.data, full.info.width, full.info.height, use);
       await sharp(res.data, { raw: { width: res.width, height: res.height, channels: 3 } }).jpeg({ quality: 92 }).toFile(dest);
     } else {

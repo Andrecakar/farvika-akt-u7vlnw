@@ -93,10 +93,18 @@
                                             },
                                             {
                                                 "id":  "2-6",
-                                                "titel":  "Tidningsartikel - dubbelmord på Farvikafjället",
+                                                "titel":  "Rättsmedicinsk obduktion",
                                                 "omslag":  "bilder/2-6-t.jpg",
                                                 "sidor":  [
                                                               "bilder/2-6-1.jpg"
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "2-7",
+                                                "titel":  "Tidningsartikel - dubbelmord på Farvikafjället",
+                                                "omslag":  "bilder/2-7-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/2-7-1.jpg"
                                                           ]
                                             }
                                         ]
