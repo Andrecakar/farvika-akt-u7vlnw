@@ -2,22 +2,35 @@
 # Kor:  powershell -ExecutionPolicy Bypass -File .\bygg.ps1 -Kod "hemligkod" -Titel "Mordet pa ..."
 # (Skriptet ar medvetet ASCII-only for att Windows PowerShell 5.1 inte ska forvanska tecken.)
 param(
-  [string]$Kod = "mordet",
-  [string]$Titel = "Mordmysteriet",
+  [string]$Kod = "sofiacakar",
+  [string]$Titel = ("Mordet p" + [char]0xE5 + " Farvikafj" + [char]0xE4 + "llet"),
   [int]$MaxSida = 2000,
-  [int]$MaxOmslag = 480
+  [int]$MaxOmslag = 480,
+  [switch]$UtanBeskarning
 )
 
 Add-Type -AssemblyName System.Drawing
 
 $root    = $PSScriptRoot
-$src     = Join-Path $root "material"
+$material = Join-Path $root "material"
+$src     = $material
 $out     = Join-Path $root "docs"
 $outImg  = Join-Path $out "bilder"
 $exts    = @(".jpg", ".jpeg", ".png", ".bmp", ".gif")
 $salt    = "mordspel:"
 
 if (-not (Test-Path $src)) { New-Item -ItemType Directory -Path $src | Out-Null }
+
+# Steg 1: hitta papperet i varje foto och rata upp det (tools\beskar.js -> material_beskuret).
+# Hoppas over om node/tools saknas eller om -UtanBeskarning anges; da anvands originalfotona.
+$cropOut = Join-Path $root "material_beskuret"
+if (-not $UtanBeskarning -and (Test-Path (Join-Path $root "tools\node_modules")) -and (Get-Command node -ErrorAction SilentlyContinue)) {
+  Write-Host "Beskar fotona..."
+  & node (Join-Path $root "tools\beskar.js")
+  if ($LASTEXITCODE -eq 0 -and (Test-Path $cropOut)) { $src = $cropOut }
+  else { Write-Warning "Beskarningen misslyckades - anvander originalfotona." }
+}
+
 if (Test-Path $outImg) { Remove-Item $outImg -Recurse -Force }
 New-Item -ItemType Directory -Path $outImg | Out-Null
 
@@ -68,7 +81,7 @@ function Get-ImageFiles($dir) {
 }
 
 # Hitta ev. filer som vi inte kan lasa (t.ex. iPhone-HEIC) och varna.
-Get-ChildItem -LiteralPath $src -File -Recurse | Where-Object { @(".heic", ".heif", ".webp") -contains $_.Extension.ToLower() } | ForEach-Object {
+Get-ChildItem -LiteralPath $material -File -Recurse | Where-Object { @(".heic", ".heif", ".webp") -contains $_.Extension.ToLower() } | ForEach-Object {
   Write-Warning ("Hoppar over {0}: formatet stods inte. Spara om som JPG (iPhone: Installningar > Kamera > Format > Mest kompatibel)." -f $_.FullName)
 }
 
