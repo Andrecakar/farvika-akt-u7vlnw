@@ -1,0 +1,118 @@
+{
+    "titel":  "Mordet på Farvikafjället",
+    "salt":  "mordspel:",
+    "kodHash":  "0718a37c066198cb104d60289104f1387ffa2efcc89ccb71490a805d1fb136aa",
+    "kategorier":  [
+                       {
+                           "namn":  "Förhör",
+                           "dokument":  [
+                                            {
+                                                "id":  "1-1",
+                                                "titel":  "Anders Holm",
+                                                "omslag":  "bilder/1-1-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/1-1-1.jpg"
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "1-2",
+                                                "titel":  "Leif Rehnström",
+                                                "omslag":  "bilder/1-2-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/1-2-1.jpg"
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "1-3",
+                                                "titel":  "Petronella Fridlund",
+                                                "omslag":  "bilder/1-3-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/1-3-1.jpg"
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "1-4",
+                                                "titel":  "Telefonförhör Lea Bach",
+                                                "omslag":  "bilder/1-4-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/1-4-1.jpg"
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "1-5",
+                                                "titel":  "Telefonförhör Herbert Bach",
+                                                "omslag":  "bilder/1-5-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/1-5-1.jpg"
+                                                          ]
+                                            }
+                                        ]
+                       },
+                       {
+                           "namn":  "Förundersökning",
+                           "dokument":  [
+                                            {
+                                                "id":  "2-1",
+                                                "titel":  "Förundersökningsprotokoll (omslag)",
+                                                "omslag":  "bilder/2-1-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/2-1-1.jpg"
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "2-2",
+                                                "titel":  "Händelserapport",
+                                                "omslag":  "bilder/2-2-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/2-2-1.jpg"
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "2-3",
+                                                "titel":  "Brottsplatsundersökning - bild",
+                                                "omslag":  "bilder/2-3-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/2-3-1.jpg"
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "2-4",
+                                                "titel":  "Brottsplatsundersökning - beskrivning",
+                                                "omslag":  "bilder/2-4-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/2-4-1.jpg"
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "2-5",
+                                                "titel":  "Brottsplatsundersökning - registreringsnummer",
+                                                "omslag":  "bilder/2-5-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/2-5-1.jpg"
+                                                          ]
+                                            },
+                                            {
+                                                "id":  "2-6",
+                                                "titel":  "Tidningsartikel - dubbelmord på Farvikafjället",
+                                                "omslag":  "bilder/2-6-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/2-6-1.jpg"
+                                                          ]
+                                            }
+                                        ]
+                       },
+                       {
+                           "namn":  "Karta",
+                           "dokument":  [
+                                            {
+                                                "id":  "3-1",
+                                                "titel":  "Karta",
+                                                "omslag":  "bilder/3-1-t.jpg",
+                                                "sidor":  [
+                                                              "bilder/3-1-1.jpg"
+                                                          ]
+                                            }
+                                        ]
+                       }
+                   ]
+}
